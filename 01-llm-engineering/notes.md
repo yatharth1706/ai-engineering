@@ -202,30 +202,45 @@ Your App
 
 ## Project — AI Playground
 
+The first project for this chapter is an **AI Playground** — a small application for experimenting with LLM APIs and understanding the fundamentals of AI application development.
+
+### Core Features
+
+- Send prompts to an LLM
+- Stream responses
+- Display token usage where available
+- Track latency
+- Track estimated cost
+- Experiment with different models
+- Compare different prompts
+
+### Suggested Architecture
+
+The implementation can use any frontend/backend stack:
+
 ```text
-Frontend
-   │ POST /chat
-   ▼
-FastAPI → AI Service → LLM API → Streaming Response → Frontend
+                    AI Playground
+
+                         User
+                          │
+                          ▼
+                     Frontend/UI
+                          │
+                          ▼
+                    Application API
+                          │
+                          ▼
+                    AI/LLM Service
+                          │
+                          ▼
+                       LLM API
+                          │
+                          ▼
+                   Streaming Response
+                          │
+                          ▼
+                     Frontend/UI
 ```
-
-### V1
-- Python + FastAPI
-- One LLM provider
-- `/chat` endpoint
-- Streaming responses
-- Simple frontend
-- Token usage/cost information where available
-
-### Future
-- Multiple models
-- Structured outputs
-- Model routing
-- Token/cost dashboard
-- Redis caching
-- Rate limiting
-- Observability
-- Fallback models
 
 ## Next Chapter
 
