@@ -229,4 +229,4 @@ FastAPI → AI Service → LLM API → Streaming Response → Frontend
 
 ## Next Chapter
 
-**02 — Structured AI:** structured outputs, JSON schema, Pydantic, function/tool calling, validation, and retries.
+**02 — RAG:** embeddings, chunking, vector search, pgvector, retrieval, and citations.

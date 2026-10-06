@@ -4,15 +4,6 @@
 
 Move from Full-Stack/Backend SWE → AI FDE / Applied AI / Full-Stack AI Engineer.
 
-## Daily Rhythm
-
-2–3 hours when bandwidth allows:
-- 45–60 min learning
-- 60–90 min building
-- 15–30 min notes/content
-
-This is sequence-based, not calendar-based.
-
 ## Chapters
 
 ### 01 — LLM Engineering
