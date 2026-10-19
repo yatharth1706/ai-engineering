@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { generate, getAvailableModels, type GenerateResponse, type Model } from './api'
+import { generateStream, getAvailableModels, type GenerateResponse, type Model } from './api'
 import ResponsePanel from './components/ResponsePanel'
 
 const DEFAULT_MODEL = 'gemini-3.8-flash'
@@ -48,9 +48,11 @@ function App() {
     setGenerating(true)
     setError(null)
     try {
-      const result = await generate({ question: question.trim(), model, temperature })
-      setResponse(result)
       setResponseModel(model)
+      setResponse({ text: '', model })
+      await generateStream({ question: question.trim(), model, temperature }, (chunk) =>
+        setResponse((prev) => prev && { ...prev, text: prev.text + chunk }),
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {

@@ -1,3 +1,4 @@
+import json
 import httpx
 from pydantic import BaseModel
 
@@ -17,6 +18,35 @@ class GeminiClient:
         self.model = model
         self.transport = transport
         self.api_url = f'https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent'
+        self.stream_api_url = f'https://generativelanguage.googleapis.com/v1beta/models/{self.model}:streamGenerateContent?alt=sse'
+
+    async def generate_stream(self, question: str, temperature: float):
+        async with httpx.AsyncClient(transport=self.transport, timeout=httpx.Timeout(60.0, connect=10.0)) as client:
+            async with client.stream(
+                "POST", 
+                self.stream_api_url,
+                headers={
+                        'x-goog-api-key': self.api_key,
+                        'Content-Type': 'application/json',
+                    },
+                    json={
+                        "contents": [{
+                            "parts": [
+                                {
+                                    "text": question
+                                }
+                            ]
+                        }],
+                        "generationConfig": {
+                            "temperature": temperature
+                        }
+                    }) as response:
+                response.raise_for_status()
+                async for line in response.aiter_lines():
+                    if not line.startswith("data: "):
+                        continue
+                    chunk = json.loads(line[len("data: "):])
+                    yield chunk["candidates"][0]["content"]["parts"][0]["text"]
 
     async def generate(self, question: str, temperature: float):
         try:

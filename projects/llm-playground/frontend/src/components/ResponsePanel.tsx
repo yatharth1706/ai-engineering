@@ -18,7 +18,8 @@ export default function ResponsePanel({ response, model }: Props) {
           Response
         </h2>
         <p className="text-xs text-slate-500">
-          {model} · {response.usage.input_tokens} input / {response.usage.output_tokens} output tokens
+          {model}
+          {response.usage && ` · ${response.usage.input_tokens} input / ${response.usage.output_tokens} output tokens`}
         </p>
       </header>
 

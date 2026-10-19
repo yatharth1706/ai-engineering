@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from app.gemini_client import GeminiClient, GeminiErrorException, list_gemini_models
@@ -72,3 +73,10 @@ async def send_to_llm(payload: LLMInputPayload):
         )
     )
 
+@app.post("/api/generate/stream")
+async def generate_llm_stream(payload: LLMInputPayload):
+    client = GeminiClient(payload.model)
+    return StreamingResponse(
+        client.generate_stream(payload.question, payload.temperature),
+        media_type="text/plain"
+    )
